@@ -1,0 +1,2 @@
+FLASK_APP=RESTful_api.py
+FLASK_ENVIRONMENT=development

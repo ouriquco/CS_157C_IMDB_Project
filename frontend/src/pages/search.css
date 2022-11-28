@@ -1,0 +1,20 @@
+.app{
+    margin: 50px;
+}
+
+.search{
+    padding: 10px;
+    font-size: 20px;
+}
+
+.moviesList{
+    margin: auto;
+    margin-top: 15px;
+    border: 1px solid black;
+    width:550px;
+    height:600px;
+    overflow:scroll;
+    box-shadow: 10px 10px 18px -8px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 10px 10px 18px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 18px -8px rgba(0,0,0,0.75);
+}

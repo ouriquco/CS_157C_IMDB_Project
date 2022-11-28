@@ -1,23 +1,22 @@
-import React from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import SignUp from './pages/signUp';
-import SignIn from './pages/signIn';
-import "./App.css"
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SignUp from "./pages/signUp";
+import SignIn from "./pages/signIn";
+import Search from "./pages/search";
+import "./App.css";
 
 function App() {
-
-return (
+  return (
     <div className={"App w-screen h-screen"}>
-    <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-            <Route exact path="/login" exact element={<SignIn />} />
-            <Route exact path="/registration" exact element={<SignUp/>} />
+          <Route exact path="/login" element={<SignIn />} />
+          <Route exact path="/registration" element={<SignUp />} />
+          <Route exact path="/search" element={<Search />} />
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
     </div>
-);
-
+  );
 }
 
 export default App;
-

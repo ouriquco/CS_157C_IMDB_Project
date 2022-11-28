@@ -27,7 +27,7 @@ class signIn extends React.Component {
             </div>
 
 
-        <button onClick={this.onClick}>Sign In</button>
+        <button className={"button"} onClick={this.onClick}>Sign In</button>
       </div>
     </div>
   );

@@ -12,6 +12,10 @@ client = MongoClient(client_string)
 db = client["users"]
 collection = db["userinfo"]
 
+"""
+db2 = client["movies"]
+collection2 = db["movieinfo]
+"""
 
 @app.route("/", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
@@ -22,6 +26,7 @@ def test_aws_connection():
         print(f'Error printing db names: {e}')
 
     return flask.jsonify(message='success')
+
 
 @app.route("/login", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
@@ -101,3 +106,27 @@ def test_delete():
         print(f'Error deleting user: {e}')
 
     return flask.jsonify(message='delete successful')
+
+"""
+@app.route("/searchDirector", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)
+def search_director():
+    
+    if request.method == 'POST':
+
+        data = json.loads(request.data)
+        director = data.get('director')
+
+    try:
+        result = collection2.find({directors: {$regex :data}});
+    except Exception as e:
+        print(f'Error finding director(s): {e}')
+
+    if result:
+        print(result)
+        return result
+    else:
+        return flask.jsonify(message='director not found')
+
+
+"""

@@ -107,26 +107,41 @@ def test_delete():
 
     return flask.jsonify(message='delete successful')
 
-"""
-@app.route("/searchDirector", methods=['POST', 'GET'])
+
+@app.route("/search", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
-def search_director():
+def search():
     
     if request.method == 'POST':
 
-        data = json.loads(request.data)
-        director = data.get('director')
+        searchData = json.loads(request.data)
+        if (data == director):
+            search_Director()
+       
+        if (data == name):
+            search_name()
 
-    try:
-        result = collection2.find({directors: {$regex :data}});
-    except Exception as e:
-        print(f'Error finding director(s): {e}')
+        if (data == title):
+            search_title()
 
-    if result:
-        print(result)
-        return result
-    else:
-        return flask.jsonify(message='director not found')
+        if(data == genre):
+            search_genre()
+        
+        if(data == actor):
+            search_actor()
+        
 
 
-"""
+def search_Director():
+    searchData = json.loads(request.data)
+    query = {"directors": {"$regex" :searchData}}
+    mydoc = collection2.find(query)
+    for x in mydoc:
+        print(x)
+
+def search_title():
+    searchData = json.loads(request.data)
+    query = {"title": {"$regex" :searchData}}
+    mydoc = collection2.find(query)
+    for x in mydoc:
+        print(x)

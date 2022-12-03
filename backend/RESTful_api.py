@@ -217,3 +217,30 @@ def search_tomatoMeter():
     for x in mydoc:
         print(x)
     return flask.jsonify(message='search by tomato meter rating successful')
+
+#
+#Add a movie to the movies database
+@app.route("/addMovieTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)  
+def add_movie():
+    #searchData = json.loads(request.data)
+    newMovie = {"title" : "The Land Beyond the Sunset", 
+    "Plot" : "Test Plot",
+    "year" : {"$numberInt": 1916},
+    "genres" : "[test generes]"
+        }
+    mydoc = collection2.insert_one(newMovie)
+    #print(mydoc.__inserted_id)
+    return flask.jsonify(message='Insert New Movie Successful')
+
+#
+#Delete a movie in the movie database based on their Title
+@app.route("/DeleteMovieTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)  
+def delete_movie():
+    #searchData = json.loads(request.data)
+    query = {"title" : "The Land Beyond the Sunset"}
+    mydoc = collection2.delete_one(query)
+    print(mydoc.deleted_count, " documents deleted")
+    
+    return flask.jsonify(message='delete succesful')

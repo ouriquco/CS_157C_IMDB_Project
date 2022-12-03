@@ -6,7 +6,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # the format for client_string: mongodb://<public_DNS_IP>:27017
-client_string = "mongodb://ec2-34-204-197-136.compute-1.amazonaws.com:27017/"
+client_string = "mongodb://ec2-54-90-61-33.compute-1.amazonaws.com:27017/"
 
 client = MongoClient(client_string)
 
@@ -130,18 +130,6 @@ def test_delete():
     #     if (searchData == actor):
     #         search_actor()
 
-@app.route("/search", methods=['POST', 'GET'])
-@cross_origin(supports_credentials=True)
-def search_Director():
-    # searchData = json.loads(request.data)
-    query = {"directors": {"$regex": "Hal Roach"}}
-    mydoc = collection2.find(query)
-
-    for x in collection2.find():
-        print(x)
-
-    return flask.jsonify(message='search director active')
-
 # def search_title():
 #     searchData = json.loads(request.data)
 #     query = {"title": {"$regex": searchData}}
@@ -223,7 +211,7 @@ def search_Director():
 @cross_origin(supports_credentials = True)
 def search_title():
     #searchData = json.loads(request.data)
-    query = {"title": {"$regex" :  "The Land Beyond the Sunset"}}
+    query = {"title": {"$regex" :  "Test"}}
     mydoc = collection2.find(query, {"title": 1})
     for x in mydoc:
         print(x)
@@ -275,7 +263,8 @@ def search_actor():
 def search_imdbRating():
     #searchData = json.loads(request.data)
     query = {"imdb.rating":  7.7}
-    mydoc = collection2.find(query,{"title": 1, "imdb.rating": 1}).limit(15)
+    #mydoc = collection2.find(query,{"title": 1, "imdb.rating": 1}).limit(15)
+    mydoc = collection2.find().limit(15)
     for x in mydoc:
         print(x)
     return flask.jsonify(message='search by imdb rating successful')
@@ -292,20 +281,33 @@ def search_tomatoMeter():
         print(x)
     return flask.jsonify(message='search by tomato meter rating successful')
 
+
 #
 #Add a movie to the movies database
-@app.route("/addMovieTest", methods=['POST', 'GET'])
+@app.route("/AddMovie", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
 def add_movie():
-    #searchData = json.loads(request.data)
-    newMovie = {"title" : "The Land Beyond the Sunset",
-    "Plot" : "Test Plot",
-    "year" : {"$numberInt": 1916},
-    "genres" : "[test generes]"
-        }
-    mydoc = collection2.insert_one(newMovie)
-    #print(mydoc.__inserted_id)
-    return flask.jsonify(message='Insert New Movie Successful')
+
+    if request.method == 'POST':
+        my_dict = {}
+        data = json.loads(request.data)
+        my_dict["MovieTitle"] = data.get('MovieTitle')
+        my_dict["Plot"] = data.get('Plot')
+        my_dict["Published"] = data.get("Published")
+        my_dict["Genre"] = data.get("Genre")
+
+        
+
+    try:
+        insertedDoc = collection2.insert_one(my_dict)
+    except Exception as e:
+        print(f'Error deleting movie: {e}')
+
+    if(not insertedDoc):
+        return flask.jsonify(message='insert unsuccesful')
+    else:
+        return flask.jsonify(message = 'inser successful')
+
 
 #
 #Delete a movie in the movie database based on their Title
@@ -317,40 +319,11 @@ def delete_movie():
         my_dict = {}
         data = json.loads(request.data)
         my_dict["MovieTitle"] = data.get('MovieTitle')
+        query = {"title" : my_dict["MovieTitle"]}
 
-
-    query = {"title" : "The Land Beyond the Sunset"}
-    deletedDoc = collection2.delete_one(query)
-        #print(mydoc.deleted_count, " documents deleted")
-
-
-
-    return flask.jsonify(message='delete unsuccesful')
-
-
-
-"""
-@app.route("/login", methods=['POST', 'GET'])
-@cross_origin(supports_credentials=True)
-def login():
-
-    if request.method == 'POST':
-
-        my_dict = {}
-        data = json.loads(request.data)
-
-        my_dict["user"] = data.get('user')
-        password = data.get('password')
-        encrypted = hashlib.sha1(password.encode('utf-8')).hexdigest()
-
-        my_dict["password"] = encrypted
     try:
-        result = collection.find_one(my_dict)
+        collection2.delete_one(query)
     except Exception as e:
-        print(f'Error finding user: {e}')
+        print(f'Error inserting movie: {e}')
 
-    if result:
-        return json.dumps({'user': my_dict["user"]})
-    else:
-        return flask.jsonify(message='user not found')
-"""
+    return flask.jsonify(message='insert succeeded')

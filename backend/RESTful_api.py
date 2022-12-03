@@ -6,16 +6,16 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # the format for client_string: mongodb://<public_DNS_IP>:27017
-client_string = "mongodb://ec2-3-94-99-140.compute-1.amazonaws.com:27017/"
+client_string = "mongodb://ec2-34-204-197-136.compute-1.amazonaws.com:27017/"
 client = MongoClient(client_string)
 
 db = client["users"]
 collection = db["userinfo"]
 
-"""
+
 db2 = client["movies"]
-collection2 = db["movieinfo]
-"""
+collection2 = db2["movieinfo"]
+
 
 @app.route("/", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
@@ -26,6 +26,7 @@ def test_aws_connection():
         print(f'Error printing db names: {e}')
 
     return flask.jsonify(message='success')
+
 
 
 @app.route("/login", methods=['POST', 'GET'])
@@ -107,26 +108,77 @@ def test_delete():
 
     return flask.jsonify(message='delete successful')
 
-"""
-@app.route("/searchDirector", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
-def search_director():
-    
-    if request.method == 'POST':
 
-        data = json.loads(request.data)
-        director = data.get('director')
 
-    try:
-        result = collection2.find({directors: {$regex :data}});
-    except Exception as e:
-        print(f'Error finding director(s): {e}')
 
-    if result:
-        print(result)
-        return result
+# def search():
+
+    # if request.method == 'POST':
+    #
+    #     searchData = json.loads(request.data)
+    #     if (searchData == director):
+    #         search_Director()
+    #
+    #     if (searchData == name):
+    #         search_name()
+    #
+    #     if (searchData == title):
+    #         search_title()
+    #
+    #     if (searchData == genre):
+    #         search_genre()
+    #
+    #     if (searchData == actor):
+    #         search_actor()
+
+@app.route("/search", methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True)
+def search_Director():
+    # searchData = json.loads(request.data)
+    query = {"directors": {"$regex": "Hal Roach"}}
+    mydoc = collection2.find(query)
+
+    for x in collection2.find():
+        print(x)
+
+    return flask.jsonify(message='search director active')
+
+# def search_title():
+#     searchData = json.loads(request.data)
+#     query = {"title": {"$regex": searchData}}
+#     mydoc = collection2.find(query)
+#     for x in mydoc:
+#         print(x)
+
+@app.route("/add_rating", methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True)
+def add_user_input():
+
+    data = json.loads(request.data)
+
+    rating = data["rating"]
+    comment = data["comment"]
+
+    if add_rating(rating) | add_comment(comment):
+        return flask.jsonify(message='add was a success')
     else:
-        return flask.jsonify(message='director not found')
+        print("Error: No user input from client")
 
+    return flask.jsonify(message='add user input active')
 
-"""
+def add_rating (rating, object_id):
+
+    if object_id and rating:
+        collection2.update({"_id": object_id}, {"$set": {"User Rating": {
+            "Stars": rating}}})
+        return True
+
+    return False
+def add_comment (comment, object_id):
+
+    if object_id and comment:
+        collection2.update({"_id": object_id}, {"$set": {"User Rating": {
+            "Comment": comment}}})
+        return True
+
+    return False

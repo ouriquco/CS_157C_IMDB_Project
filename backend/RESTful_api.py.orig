@@ -7,7 +7,10 @@ app = Flask(__name__)
 
 # the format for client_string: mongodb://<public_DNS_IP>:27017
 client_string = "mongodb://ec2-34-204-197-136.compute-1.amazonaws.com:27017/"
+<<<<<<< HEAD
+=======
 
+>>>>>>> fb3600eb170c14f7c8aa11b251120cbba86db8cd
 client = MongoClient(client_string)
 
 db = client["users"]
@@ -109,6 +112,9 @@ def test_delete():
 
     return flask.jsonify(message='delete successful')
 
+<<<<<<< HEAD
+
+
 
 # def search():
 
@@ -181,18 +187,18 @@ def add_comment (comment, object_id):
         return True
 
     return False
-
+=======
 """
 @app.route("/searchDirector", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
 def search():
-
+    
     if request.method == 'POST':
 
         searchData = json.loads(request.data)
         if (data == director):
             search_Director()
-
+       
         if (data == name):
             search_name()
 
@@ -201,11 +207,11 @@ def search():
 
         if(data == genre):
             search_genre()
-
+        
         if(data == actor):
             search_actor()
-"""
-#
+""" 
+#      
 #Search by Movie Director
 @app.route("/DirTest", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
@@ -215,7 +221,7 @@ def search_Director():
     mydoc = collection2.find(query,{"title": 1, "directors": 1}).limit(15)
     for x in mydoc:
         print(x)
-    return flask.jsonify(message='search by director successful')
+    return flask.jsonify(message='search by director successful') 
 
 #
 #Search by Movie Title
@@ -227,8 +233,8 @@ def search_title():
     mydoc = collection2.find(query, {"title": 1})
     for x in mydoc:
         print(x)
-
-    return flask.jsonify(message='search title successful')
+    
+    return flask.jsonify(message='search title successful') 
 
 #
 #Search by Movie Genre
@@ -246,7 +252,7 @@ def search_genre():
 #
 #Search by Movie Plot
 @app.route("/PTest", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
+@cross_origin(supports_credentials = True) 
 def search_description():
     #searchData = json.loads(request.data)
     query = {"plot": {"$regex" : "dog"}}
@@ -256,10 +262,10 @@ def search_description():
 
     return flask.jsonify(message='search description successful')
 
-#
+#  
 #Search by Actor
 @app.route("/ATest", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
+@cross_origin(supports_credentials = True)  
 def search_actor():
     #searchData = json.loads(request.data)
     query = {"cast": {"$regex" : "Johnny Depp"}}
@@ -271,7 +277,7 @@ def search_actor():
 #
 #Search by IMDB rating
 @app.route("/IMDBTest", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
+@cross_origin(supports_credentials = True)  
 def search_imdbRating():
     #searchData = json.loads(request.data)
     query = {"imdb.rating":  7.7}
@@ -283,7 +289,7 @@ def search_imdbRating():
 #
 #Search by tomato meter
 @app.route("/TomatoTest", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
+@cross_origin(supports_credentials = True)  
 def search_tomatoMeter():
     #searchData = json.loads(request.data)
     query = {"tomatoes.viewer.meter":  60}
@@ -295,10 +301,10 @@ def search_tomatoMeter():
 #
 #Add a movie to the movies database
 @app.route("/addMovieTest", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
+@cross_origin(supports_credentials = True)  
 def add_movie():
     #searchData = json.loads(request.data)
-    newMovie = {"title" : "The Land Beyond the Sunset",
+    newMovie = {"title" : "The Land Beyond the Sunset", 
     "Plot" : "Test Plot",
     "year" : {"$numberInt": 1916},
     "genres" : "[test generes]"
@@ -310,21 +316,21 @@ def add_movie():
 #
 #Delete a movie in the movie database based on their Title
 @app.route("/DeleteMovie", methods=['POST', 'GET'])
-@cross_origin(supports_credentials = True)
+@cross_origin(supports_credentials = True)  
 def delete_movie():
 
     if request.method == 'POST':
         my_dict = {}
         data = json.loads(request.data)
-        my_dict["MovieTitle"] = data.get('MovieTitle')
-
+        my_dict["MovieTitle"] = data.get('MovieTitle')    
+    
 
     query = {"title" : "The Land Beyond the Sunset"}
     deletedDoc = collection2.delete_one(query)
         #print(mydoc.deleted_count, " documents deleted")
+    
 
-
-
+    
     return flask.jsonify(message='delete unsuccesful')
 
 
@@ -354,3 +360,4 @@ def login():
     else:
         return flask.jsonify(message='user not found')
 """
+>>>>>>> fb3600eb170c14f7c8aa11b251120cbba86db8cd

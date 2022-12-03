@@ -3,10 +3,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import Search from "./pages/search";
-
+<<<<<<< HEAD
 import AddRating from "./pages/addRating"
+=======
 import DeleteMovie from "./pages/DeleteMovie";
-
+>>>>>>> fb3600eb170c14f7c8aa11b251120cbba86db8cd
 import "./App.css";
 import {Home} from "./pages/Home";
 

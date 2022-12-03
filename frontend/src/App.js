@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import Search from "./pages/search";
+import DropDown from "./pages/dropdown";
 import "./App.css";
 
 function App() {

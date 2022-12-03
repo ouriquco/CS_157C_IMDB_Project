@@ -6,16 +6,17 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # the format for client_string: mongodb://<public_DNS_IP>:27017
-client_string = "mongodb://ec2-3-94-99-140.compute-1.amazonaws.com:27017/"
+client_string = "mongodb://ec2-3-85-222-149.compute-1.amazonaws.com:27017/"
+
 client = MongoClient(client_string)
 
 db = client["users"]
 collection = db["userinfo"]
 
-"""
+
 db2 = client["movies"]
-collection2 = db["movieinfo]
-"""
+collection2 = db2["movieinfo"]
+
 
 @app.route("/", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
@@ -107,8 +108,8 @@ def test_delete():
 
     return flask.jsonify(message='delete successful')
 
-
-@app.route("/search", methods=['POST', 'GET'])
+"""
+@app.route("/searchDirector", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
 def search():
     
@@ -129,19 +130,90 @@ def search():
         
         if(data == actor):
             search_actor()
-        
-
-
+""" 
+#      
+#Search by Movie Director
+@app.route("/DirTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)
 def search_Director():
-    searchData = json.loads(request.data)
-    query = {"directors": {"$regex" :searchData}}
-    mydoc = collection2.find(query)
+    #searchData = json.loads(request.data)
+    query = {"directors": {"$regex" :"Hal Roach"}}
+    mydoc = collection2.find(query,{"title": 1, "directors": 1}).limit(15)
+    for x in mydoc:
+        print(x)
+    return flask.jsonify(message='search by director successful') 
+
+#
+#Search by Movie Title
+@app.route("/TTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)
+def search_title():
+    #searchData = json.loads(request.data)
+    query = {"title": {"$regex" :  "The Land Beyond the Sunset"}}
+    mydoc = collection2.find(query, {"title": 1})
+    for x in mydoc:
+        print(x)
+    
+    return flask.jsonify(message='search title successful') 
+
+#
+#Search by Movie Genre
+@app.route("/GTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)
+def search_genre():
+    #searchData = json.loads(request.data)
+    query = {"genres": {"$regex" :"Mystery"}}
+    mydoc = collection2.find(query, {"title": 1, "genres": 1}).limit(15)
     for x in mydoc:
         print(x)
 
-def search_title():
-    searchData = json.loads(request.data)
-    query = {"title": {"$regex" :searchData}}
-    mydoc = collection2.find(query)
+    return flask.jsonify(message='search genres successful')
+
+#
+#Search by Movie Plot
+@app.route("/PTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True) 
+def search_description():
+    #searchData = json.loads(request.data)
+    query = {"plot": {"$regex" : "dog"}}
+    mydoc = collection2.find(query, {"title": 1, "plot": 1}).limit(15)
     for x in mydoc:
         print(x)
+
+    return flask.jsonify(message='search description successful')
+
+#  
+#Search by Actor
+@app.route("/ATest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)  
+def search_actor():
+    #searchData = json.loads(request.data)
+    query = {"cast": {"$regex" : "Johnny Depp"}}
+    mydoc = collection2.find(query,{"title": 1, "cast": 1}).limit(15)
+    for x in mydoc:
+        print(x)
+    return flask.jsonify(message='search by actor successful')
+
+#
+#Search by IMDB rating
+@app.route("/IMDBTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)  
+def search_imdbRating():
+    #searchData = json.loads(request.data)
+    query = {"imdb.rating":  7.7}
+    mydoc = collection2.find(query,{"title": 1, "imdb.rating": 1}).limit(15)
+    for x in mydoc:
+        print(x)
+    return flask.jsonify(message='search by imdb rating successful')
+
+#
+#Search by tomato meter
+@app.route("/TomatoTest", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)  
+def search_tomatoMeter():
+    #searchData = json.loads(request.data)
+    query = {"tomatoes.viewer.meter":  60}
+    mydoc = collection2.find(query,{"title": 1, "tomatoes.viewer.meter": 1}).limit(15)
+    for x in mydoc:
+        print(x)
+    return flask.jsonify(message='search by tomato meter rating successful')

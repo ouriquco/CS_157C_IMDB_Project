@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import Search from "./pages/search";
-import DropDown from "./pages/dropdown";
+import DeleteMovie from "./pages/DeleteMovie";
 import "./App.css";
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
           <Route exact path="/login" element={<SignIn />} />
           <Route exact path="/registration" element={<SignUp />} />
           <Route exact path="/search" element={<Search />} />
+          <Route exact path="/DeleteMovie" element={<DeleteMovie />} />
         </Routes>
       </BrowserRouter>
     </div>

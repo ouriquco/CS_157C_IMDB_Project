@@ -6,7 +6,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # the format for client_string: mongodb://<public_DNS_IP>:27017
-client_string = "mongodb://ec2-3-85-222-149.compute-1.amazonaws.com:27017/"
+client_string = "mongodb://ec2-34-204-197-136.compute-1.amazonaws.com:27017/"
 
 client = MongoClient(client_string)
 
@@ -235,12 +235,48 @@ def add_movie():
 
 #
 #Delete a movie in the movie database based on their Title
-@app.route("/DeleteMovieTest", methods=['POST', 'GET'])
+@app.route("/DeleteMovie", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)  
 def delete_movie():
-    #searchData = json.loads(request.data)
-    query = {"title" : "The Land Beyond the Sunset"}
-    mydoc = collection2.delete_one(query)
-    print(mydoc.deleted_count, " documents deleted")
+
+    if request.method == 'POST':
+        my_dict = {}
+        data = json.loads(request.data)
+        my_dict["MovieTitle"] = data.get('MovieTitle')    
     
-    return flask.jsonify(message='delete succesful')
+
+    query = {"title" : "The Land Beyond the Sunset"}
+    deletedDoc = collection2.delete_one(query)
+        #print(mydoc.deleted_count, " documents deleted")
+    
+
+    
+    return flask.jsonify(message='delete unsuccesful')
+
+
+
+"""
+@app.route("/login", methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True)
+def login():
+
+    if request.method == 'POST':
+
+        my_dict = {}
+        data = json.loads(request.data)
+
+        my_dict["user"] = data.get('user')
+        password = data.get('password')
+        encrypted = hashlib.sha1(password.encode('utf-8')).hexdigest()
+
+        my_dict["password"] = encrypted
+    try:
+        result = collection.find_one(my_dict)
+    except Exception as e:
+        print(f'Error finding user: {e}')
+
+    if result:
+        return json.dumps({'user': my_dict["user"]})
+    else:
+        return flask.jsonify(message='user not found')
+"""

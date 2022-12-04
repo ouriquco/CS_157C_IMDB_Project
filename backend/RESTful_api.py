@@ -16,8 +16,8 @@ db = client["users"]
 collection = db["userinfo"]
 
 
-db2 = client["movies"]
-collection2 = db2["movieinfo"]
+db2 = client["movie"]
+collection2 = db2["moviesinfo"]
 
 #
 #Test to list all our database in console
@@ -325,7 +325,7 @@ def delete_movie():
 #Delete a user review with a certain word or phrase (that may be unacceptable language)
 @app.route("/DeleteUserReview", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
-def delete_movie():
+def delete_userReview():
 
     if request.method == 'POST':
         my_dict = {}

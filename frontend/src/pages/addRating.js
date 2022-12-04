@@ -5,9 +5,13 @@ class addRating extends React.Component{
         super(props);
         this.state ={
             rating: '',
-            comment: ''
+            comment: '',
+            object_id: sessionStorage.getItem("movie_id")
         }
+
     }
+
+
 
   validateRating = () => {
         const {rating} = this.state;

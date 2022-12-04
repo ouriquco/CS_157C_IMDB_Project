@@ -1,11 +1,18 @@
 import React from "react";
 import './signIn.css';
+import {useNavigate} from "react-router-dom";
+
 
 class signIn extends React.Component {
     constructor() {
         super();
     }
 
+    navigate = useNavigate();
+
+    navigate_login = ()=>{
+        this.navigate('/search')
+    }
 
     render() {
          return (
@@ -50,7 +57,7 @@ class signIn extends React.Component {
         console.log(json)
 
         if (json.response){
-            window.location.pathname = "/"; //navigate to a new page
+            this.navigate_login(); //navigate to a new page
         }
 
         return json;

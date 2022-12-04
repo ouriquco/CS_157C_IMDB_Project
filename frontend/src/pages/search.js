@@ -11,6 +11,7 @@ function Search() {
   const FILTER_TITLE = "title";
   const FILTER_TOMATO = "tomato";
   const FILTER_URating = "user_rating"
+  const FILTER_RUNTIME = "runtime"
 
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState("");
@@ -66,7 +67,7 @@ function Search() {
           return e.toLowerCase().includes(query.toLowerCase());
         });
       case FILTER_PLOT:
-        return movie.plot.toLowerCase().includes(query.toLowerCase());
+        return movie.genres.toLowerCase().includes(query.toLowerCase());
       case FILTER_GENRE:
         return movie.genres.some((e) => {
           return e.toLowerCase().includes(query.toLowerCase());
@@ -76,7 +77,9 @@ function Search() {
       case FILTER_TYPE:
         return movie.type.toLowerCase().includes(query.toLowerCase());
       case FILTER_URating:
-        return movie.user_rating.toLowerCase().includes(query.toLowerCase);
+        return movie.user_rating.toLowerCase().includes(query.toLowerCase());
+      case FILTER_RUNTIME:
+        return movie.runtime.toLowerCase().includes(query.toLowerCase())
       default:
         return movie.title.toLowerCase().includes(query.toLowerCase());
     }
@@ -94,6 +97,8 @@ function Search() {
         <input type="radio" value={FILTER_IMBD} name="filter" /> IMBD Rating
         <input type="radio" value={FILTER_TOMATO} name="filter" /> Tomato Meter
         <input type="radio" value={FILTER_URating} name="filter" /> User Rating
+        <input type="radio" value={FILTER_RUNTIME} name="filter" /> Runtime
+
       </div>
       <h1>Movies Database Search</h1>
       <input

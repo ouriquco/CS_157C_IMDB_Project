@@ -189,6 +189,8 @@ def search():
             return search_tomatoMeter(query)
         elif type == "user_rating":
             return search_userrating(query)
+        elif type == "runtime":
+            return search_runtime(query)
         else:
             print("Error: Invalid filter type")
 
@@ -245,6 +247,15 @@ def search_imdbRating(q):
 
     query = {"imdb.rating": q}
     mydoc = list(collection2.find(query,{"title": 1, "imdb.rating":
+        1}).limit(15))
+
+    return json.loads(json_util.dumps(mydoc))
+
+#
+#Filter by Runtime
+def search_runtime(q):
+    query = {"runtime": q}
+    mydoc = list(collection2.find(query,{"title": 1, "runtime":
         1}).limit(15))
 
     return json.loads(json_util.dumps(mydoc))
@@ -326,3 +337,6 @@ def delete_movie():
         #print(mydoc.deleted_count, " documents deleted")
 
     return flask.jsonify(message='delete unsuccesful')
+
+#
+#Search by runtime range

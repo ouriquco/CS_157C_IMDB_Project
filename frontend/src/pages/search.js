@@ -10,6 +10,7 @@ function Search() {
   const FILTER_DIRECTOR = "director";
   const FILTER_TITLE = "title";
   const FILTER_TOMATO = "tomato";
+  const FILTER_URating = "user_rating"
 
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState("");
@@ -74,6 +75,8 @@ function Search() {
         return movie.rated.toLowerCase().includes(query.toLowerCase());
       case FILTER_TYPE:
         return movie.type.toLowerCase().includes(query.toLowerCase());
+      case FILTER_URating:
+        return movie.user_rating.toLowerCase().includes(query.toLowerCase);
       default:
         return movie.title.toLowerCase().includes(query.toLowerCase());
     }
@@ -90,6 +93,7 @@ function Search() {
         <input type="radio" value={FILTER_GENRE} name="filter" /> Genre
         <input type="radio" value={FILTER_IMBD} name="filter" /> IMBD Rating
         <input type="radio" value={FILTER_TOMATO} name="filter" /> Tomato Meter
+        <input type="radio" value={FILTER_URating} name="filter" /> User Rating
       </div>
       <h1>Movies Database Search</h1>
       <input

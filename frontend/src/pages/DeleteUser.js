@@ -1,9 +1,9 @@
 import React from "react";
-import './signIn.css';
+import './DeleteUser.css';
 import {useNavigate} from "react-router-dom";
 
 
-class signIn extends React.Component {
+class DeleteUser extends React.Component {
     constructor() {
         super();
     }
@@ -18,23 +18,16 @@ class signIn extends React.Component {
          return (
     <div className="App">
       <div className="signin-container">
-        <h1>Sign In</h1>
+        <h1>Delete User</h1>
         <div className="input-container">
-          <label>Username</label>
+          <label>User Email</label>
           <input type="text"
-          onChange={(e) => sessionStorage.setItem("user",e.target.value)}
+          onChange={(e) => sessionStorage.setItem("email",e.target.value)}
           />
           </div>
-          <div className="input-container">
+         
 
-          <label>Password </label>
-          <input type="password"
-           onChange={(e) => sessionStorage.setItem("password",e.target.value)}
-            />
-            </div>
-
-
-        <button className={"button"} onClick={this.onClick}>Sign In</button>
+        <button className={"button"} onClick={this.onClick}>Delete User</button>
       </div>
     </div>
   );
@@ -44,11 +37,10 @@ class signIn extends React.Component {
         event.preventDefault();
 
         let jsonData = {
-            user: sessionStorage.getItem("user"),
-            password: sessionStorage.getItem("password")
+            email: sessionStorage.getItem("email"),
         }
 
-        const response = await fetch('http://127.0.0.1:5000/login', {
+        const response = await fetch('http://127.0.0.1:5000/DeleteUser', {
                 method: 'POST',
                 body: JSON.stringify(jsonData)
                 });
@@ -66,4 +58,4 @@ class signIn extends React.Component {
 
 }
 
-export default signIn;
+export default DeleteUser;

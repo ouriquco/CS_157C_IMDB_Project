@@ -1,6 +1,11 @@
 import React from "react";
 import './signUp.css';
 import {useNavigate} from "react-router-dom";
+// const navigate = useNavigate();
+    
+//     const navigate_sign_up = ()=>{
+//         this.navigate('/search')
+//     }
 
 class SignUp extends React.Component {
     constructor() {
@@ -13,11 +18,7 @@ class SignUp extends React.Component {
         }
     }
 
-    navigate = useNavigate();
-
-    navigate_sign_up = ()=>{
-        this.navigate('/search')
-    }
+    
 
     render() {
         const { email,user, password, confirm_password } = this.state;
@@ -105,9 +106,9 @@ class SignUp extends React.Component {
             const json = await response.json();
             console.log(json);
 
-            if (json.response){
-            this.navigate_sign_up(); //navigate to a new page
-        }
+            // if (json.response){
+            // this.navigate_sign_up(); //navigate to a new page
+        //}
 
         }
     }

@@ -19,7 +19,8 @@ collection = db["userinfo"]
 db2 = client["movies"]
 collection2 = db2["movieinfo"]
 
-
+#
+#Test to list all our database in console
 @app.route("/", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def test_aws_connection():
@@ -31,7 +32,8 @@ def test_aws_connection():
     return flask.jsonify(message='success')
 
 
-
+#
+#User login
 @app.route("/login", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def login():
@@ -57,6 +59,8 @@ def login():
         return flask.jsonify(message='user not found')
 
 
+#
+#User Registration
 @app.route("/registration", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def registration():
@@ -84,6 +88,27 @@ def registration():
     return flask.jsonify(message='insert succeeded')
 
 
+
+#
+#Deletes a user account given an email
+@app.route("/DeleteUser", methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True)
+def test_delete():
+
+    if request.method == 'POST':
+        my_dict = {}
+        data = json.loads(request.data)
+        my_dict["email"] = data.get('email')
+    
+    query = {'email': my_dict['email']}
+    collection.delete_one(query)
+    
+    
+    print('s')
+    return flask.jsonify(message = 'deleted user')
+
+#
+#Test
 @app.route("/update", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def test_update():
@@ -98,19 +123,8 @@ def test_update():
 
     return flask.jsonify(message='update successful')
 
-
-@app.route("/delete", methods=['POST', 'GET'])
-@cross_origin(supports_credentials=True)
-def test_delete():
-
-    try:
-        result = collection.find_one()
-        collection.delete_one(result)
-    except Exception as e:
-        print(f'Error deleting user: {e}')
-
-    return flask.jsonify(message='delete successful')
-
+#
+#add a User rating or comment to a movie
 @app.route("/add_rating", methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def add_user_input():
@@ -146,7 +160,8 @@ def add_comment (comment, object_id):
 
     return False
 
-
+#
+#Search by xxx
 @app.route("/search", methods=['POST', 'GET'])
 @cross_origin(supports_credentials = True)
 def search():
@@ -172,11 +187,14 @@ def search():
             return search_description(query)
         elif type == "tomato":
             return search_tomatoMeter(query)
+        elif type == "user_rating":
+            return search_userrating(query)
         else:
             print("Error: Invalid filter type")
 
     return flask.jsonify(message='search is active')
 
+#search by movie director(s)
 def search_director(q):
 
     query = {"directors": {"$regex": q}}
@@ -184,6 +202,7 @@ def search_director(q):
 
     return json.loads(json_util.dumps(mydoc))
 
+#search by movie title
 def search_title(q):
 
     query = {"title": {"$regex" :  q}}
@@ -241,6 +260,12 @@ def search_tomatoMeter(q):
 
     return json.loads(json_util.dumps(mydoc))
 
+#
+#Search by User Rating
+def search_userrating(q):
+    query = {"User Rating": q}
+    mydoc = list(collection2.find(query,{"title": 1, "User Rating": 1}).limit(15))
+    return json.loads(json_util.dumps(mydoc))
 
 #Add a movie to the movies database
 @app.route("/AddMovie", methods=['POST', 'GET'])

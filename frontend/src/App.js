@@ -7,6 +7,7 @@ import AddRating from "./pages/addRating"
 import DeleteMovie from "./pages/DeleteMovie";
 import AddMovie from "./pages/AddMovie";
 import DeleteUser from "./pages/DeleteUser";
+import DeleteUserReview from "./pages/DeleteUserReview";
 import "./App.css";
 
 import {Home} from "./pages/Home";
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/DeleteMovie" element={<DeleteMovie />} />
           <Route exact path="/AddMovie" element={<AddMovie />} />
           <Route exact path="/DeleteUser" element={<DeleteUser />} />
+          <Route exact path="/DeleteUserReview" element={<DeleteUserReview />} />
         </Routes>
       </BrowserRouter>
     </div>

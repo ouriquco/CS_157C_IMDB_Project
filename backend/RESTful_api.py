@@ -304,9 +304,25 @@ def delete_movie():
         data = json.loads(request.data)
         my_dict["MovieTitle"] = data.get('MovieTitle')
         query = {"title" : my_dict["MovieTitle"]}
+        deletedDoc = collection2.delete_one(query)
+   
+        #print(mydoc.deleted_count, " documents deleted")
 
-    query = {"title" : "The Land Beyond the Sunset"}
-    deletedDoc = collection2.delete_one(query)
+    return flask.jsonify(message='delete unsuccesful')
+
+#
+#Delete a user review with a certain word or phrase (that may be unacceptable language)
+@app.route("/DeleteUserReview", methods=['POST', 'GET'])
+@cross_origin(supports_credentials = True)
+def delete_movie():
+
+    if request.method == 'POST':
+        my_dict = {}
+        data = json.loads(request.data)
+        my_dict["UserReview"] = data.get('UserReview')
+        query = {"User Review" : my_dict["UserReview"]}, {"$set": {"User Review" : "Review Removed"}}
+        deletedDoc = collection2.update_many(query)
+   
         #print(mydoc.deleted_count, " documents deleted")
 
     return flask.jsonify(message='delete unsuccesful')
